@@ -1,8 +1,9 @@
 import numpy as np
 import cv2
 from matplotlib import pyplot as plt
+import scipy.spatial import distance as dist
 
-img = cv2.imread('test1.jpg')
+img = cv2.imread('sample1.jpg')
 gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
 kernel_size = 5
@@ -13,8 +14,6 @@ high_threshold = 300
 edges = cv2.Canny(blur_gray, low_threshold, high_threshold)
 cv2.imshow('imageCanny',edges)
 cv2.waitKey(0)
-
-
 
 rho = 1  # distance resolution in pixels of the Hough grid
 theta = np.pi / 180  # angular resolution in radians of the Hough grid
@@ -37,44 +36,3 @@ lines_edges = cv2.addWeighted(img, 0.8, line_image, 1, 0)
 
 cv2.imshow('imageHough',lines_edges)
 cv2.waitKey(0)
-
-
-
-
-'''
-# Initiate FAST object with default values
-fast = cv2.FastFeatureDetector_create()
-sift = cv2.SIFT_create()
-
-kp1 = sift.detect(gray,None)
-imgSift=cv2.drawKeypoints(gray,kp1,None)
-cv2.imshow('imageSift',imgSift)
-cv2.waitKey(0)
-
-# find and draw the keypoints
-kp2 = fast.detect(img,None)
-img2 = cv2.drawKeypoints(img, kp2, None, color=(255,0,0))
-
-# Print all default params
-print ("Threshold: ", fast.getThreshold())
-print ("nonmaxSuppression: ", fast.getNonmaxSuppression())
-print ("neighborhood: ", fast.getType())
-print ("Total Keypoints with nonmaxSuppression: ", len(kp2))
-
-cv2.imwrite('fast_true.png',img2)
-
-# Disable nonmaxSuppression
-#fast.setNonmaxSuppression(0)
-#kp = fast.detect(img,None)
-
-print ("Total Keypoints without nonmaxSuppression: ", len(kp2))
-
-img3 = cv2.drawKeypoints(img, kp2, None, color=(255,0,0))
-
-#cv2.imwrite('fast_false.png',img3)
-
-cv2.imshow('imageFast',img3)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
-
-'''
