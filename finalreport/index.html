@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en"><head>  
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title>Computer Vision Course Project
+  | ECE, Virginia Tech | Fall 2020: ECE 4554/5554</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+<!-- Le styles -->  
+  <link href="css/bootstrap.css" rel="stylesheet">
+<style>
+body {
+padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+}
+.vis {
+color: #3366CC;
+}
+.data {
+color: #FF9900;
+}
+</style>
+  
+<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements --><!--[if lt IE 9]>
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+</head>
+
+<body>
+<div class="container">
+<div class="page-header">
+
+<!-- Title and Name --> 
+<h1>The Room Mapper</h1> 
+<span style="font-size: 20px; line-height: 1.5em;"><strong>Group 2</strong></span><br>
+<span style="font-size: 18px; line-height: 1.5em;">Fall 2020 ECE 4554 Computer Vision: Course Project</span><br>
+<span style="font-size: 18px; line-height: 1.5em;">Virginia Tech</span>
+<hr>
+
+<!--Please see <a href="http://vision.cs.utexas.edu/projects/adapted_attributes/">this</a> for an example of how to lay out the various details of your project. You may need to provide more details than this, because you will not be submitting an associated paper to accompany the webpage. So the page should be self-contained.
+
+Goal -->
+<h3>Abstract</h3>
+
+Mapping a room, especially a room with different objects, can be difficult because no image is the same. We have been researching edge detection algorithms while working on this project. Currently, we have been able to successfully identify the edges in an empty room using our testing images.
+<br><br>
+<!-- figure -->
+<h3>Teaser figure</h3>
+This image is an example of how our code will create a 3d representation of a room. The image here represents how we will show our users walls, ceilings, and floors of an empty room.
+<br><br>
+<!-- Main Illustrative Figure --> 
+<div style="text-align: center;">
+<img style="height: 400px; width: 700px;" alt="" src="teaserFigure.png">
+</div>
+
+<br><br>
+<!-- Introduction -->
+<h3>Introduction</h3>
+<!--Motivation behind the problem you are solving, what applications it has, any brief background on the particular domain you are working in (if not regular RBG photographs), etc. If you are using a new way to solve an existing problem, briefly mention and describe the existing approaches and tell us how your approach is new.
+-->
+It is hard to map a room from a single image, so we decided we wanted to solve this problem. Our project, also known as The Room Mapper, will take an image of a room and be able to identify the walls, ceilings, and floors in the room. Although room mapping algorithms
+are already on the market, this project has multiple applications in the real estate and commercial industries. For example, a real estate agency may use a program like ours to filter out images they may want to send to
+a client looking for a home that has specific requirements. Overall, we hope to automate a mapping process for unknown spaces and apply it to multiple industries.
+
+<br><br>
+<!-- Approach -->
+<h3>Approach</h3>
+We have used an edge detection algorithm, which is Canny Edge Detection, to filter out edges in an empty room. From there, we will map out points from the edges to identify the walls, floors, and ceilings of empty rooms.
+Currently, we have been able to use Canny Edge Detection to filter out edges in an empty room. Our next step in the process is to distinguish between walls and objects that may be placed in a room.
+<br> <br>
+Currently, we have been able to produce images similar to the one below using Hough Line Continuation:
+<br> <br>
+<div style="text-align: center;">
+  <img style="height: 400px; width: 700px;" alt="" src="status.png">
+</div>
+
+<br><br
+<!-- Results -->
+<h3>Experiments and results</h3>
+<!--Provide details about the experimental set up (number of images/videos, number of datasets you experimented with, train/test split if you used machine learning algorithms, etc.). Describe the evaluation metrics you used to evaluate how well your approach is working. Include clear figures and tables, as well as illustrative qualitative examples if appropriate. Be sure to include obvious baselines to see if your approach is doing better than a naive approach (e.g. for classification accuracy, how well would a classifier do that made random decisions?). Also discuss any parameters of your algorithms, and tell us how you set the values of those parameters. You can also show us how the performance varies as you change those parameter values. Be sure to discuss any trends you see in your results, and explain why these trends make sense. Are the results as expected? Why?
+-->
+We have used a combination of original images and images found online in our testing arrangement. We have discovered that high resolution pictures with even lighting perform the best in our testing. Ten different images of walls were used by the program. Edge detection and image manipulation is performed by the opencv python3 library. We have visually assessed each room's outline to what we discern as the walls and have compared the results to validate the programs operation. We qualitatively evaluate the accuracy of the algorithm by comparing it to the actual blueprint and/or measurements of the room.
+
+<br><br>Most of the outcomes and observations made for our program are qualitative in nature as we are visually comparing the output of the program to the actualy walls of a room. Our implementation performs better than naive Canny edge detection in the sense that we apply a more scrutinous series of transformations to the original image to ensure that the detected walls are as close to accurate as possible. Below is a comparison between naive canny edge detection and the series of gaussian blur, canny edge detection, then hough line transformation thresholding used in our application. As you can see, our implementation on the left performs much better and has much less noise than that of the canny edge detection implementation, shown on the right.
+
+<br><br>
+
+<div style="text-align: center;">
+  <img style="height: 400px; width: 400px;" alt="" src="goodDetection.png">
+  <img style="height: 400px; width: 400px;" alt="" src="badDetection.png">
+</div>
+
+<br> <br>
+
+We also experimented with canny edge detection. We found that having a higher threshold range proved to be very ineffective. The image below on the left with a higher threshold range is not able to detect edges as effectively as the image below on the right.
+
+<br><br>
+
+<div style="text-align: center;">
+  <img style="height: 400px; width: 400px;" alt="" src="cfailure.jpg">
+  <img style="height: 400px; width: 400px;" alt="" src="csuccess.jpg">
+</div>
+
+<br><br> There are various notable parameters that change how well our algorithm performs, but the most important are the size of the gaussian kernel, the lower canny detection threshold, and the upper canny detection threshold. Secondarily, the various hough transformation parameters control the granularity of line detection and decides which lines get included in the final output image array.
+
+<h3>Qualitative Results</h3>
+
+For this section, we have taken 5 out of the 10 images we used to test our algorithm. None of the images shown below are failures; however, we do not consider them to be part of our final product either.
+
+<br><br>
+
+<div style="text-align: center;">
+  <img style="height: 400px; width: 400px;" alt="" src="image1.png">
+  <img style="height: 400px; width: 400px;" alt="" src="image2.png">
+  <img style="height: 400px; width: 400px;" alt="" src="image3.png">
+  <img style="height: 400px; width: 400px;" alt="" src="image4.png">
+  <img style="height: 400px; width: 400px;" alt="" src="image5.png">
+</div>
+
+<br> <br>
+
+The images above were tested with our algorithm. As you can see, the images are able to relatively outline the edges in a room; however, there are obvious errors in some of them. For example, the first image is perfect
+while the last one is subpar. We will continue to fix our algorithm so all kinds of images will work with the Room Mapper. We included some sample inputs in our submission.
+
+<br><br>
+
+<h3>Conclusion</h3>
+Overall, we have described our current status on our project. We have made progress when using Hough Line Continuation and Canny Edge Detection to filter edges in an empty room. 
+For the next part in the project, we will continue to fix any bugs and work on identifying the walls, ceilings, and floors from the images we have worked on.
+
+<br><br>
+
+<h3>References</h3>
+https://en.wikipedia.org/wiki/Hough_transform
+<br>
+http://fourier.eng.hmc.edu/e161/lectures/canny/node1.html 
+<br>
+https://opencv.org/ 
+
+
+<!-- Main Results Figure --> 
+<!-- <div style="text-align: center;">
+<img style="height: 300px;" alt="" src="results.png">
+</div>
+<br><br> -->
+
+<!-- Results -->
+<!-- <h3>Qualitative results</h3> -->
+<!--Show several visual examples of inputs/outputs of your system (success cases and failures) that help us better understand your approach.
+-->
+  <br><br>
+
+<!-- Main Results Figure --> 
+<!-- <div style="text-align: center;">
+<img style="height: 300px;" alt="" src="qual_results.png">
+</div>
+<br><br> -->
+
+
+
+
+  <hr>
+  <footer> 
+  <p>© Dillon Conner, Matt Lamb, and Taha Rangwala</p>
+  </footer>
+</div>
+</div>
+
+<br><br>
+
+</body></html>
